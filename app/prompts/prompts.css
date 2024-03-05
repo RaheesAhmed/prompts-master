@@ -1,0 +1,100 @@
+body {
+  background-color: #f8f9fa; /* Softer background */
+  font-family: 'Open Sans', sans-serif; /* Modern font */
+}
+.container {
+  
+  padding: 30px; /* Increased padding */
+ 
+  margin-bottom: 20px; /* Space between sections */
+}
+#result .card {
+  margin-top: 20px;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+.cm-variable {
+  font-weight: bold; /* Make variables bold */
+  color: #d55fde; /* Improve variable highlight color */
+}
+
+.result-container {
+  margin-top: 20px;
+  display: block;
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+.result-card {
+  flex: 1;
+  margin: 10px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.result-card .card-body {
+  padding: 10px;
+}
+.result-card h5 {
+  margin-bottom: 15px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+.variable-badge {
+  margin-right: 5px;
+}
+.chat-container {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 200px; /* Adjust as needed */
+  border: 1px solid #ddd;
+}
+.chat-message {
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: #e9ecef;
+}
+.prompt-message {
+  background: #d1e7dd;
+}
+.response-message {
+  background: #f8d7da;
+}
+.improved-container {
+  display: flex; /* Flex to display improved versions side by side */
+}
+.badge {
+  cursor: pointer; /* Indicates clickability */
+  transition: transform 0.1s ease; /* Smooth transition for click */
+}
+.badge:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+
+.skeleton-loader {
+  background-color: #f2f2f2;
+  height: 20px;
+  margin: 10px 0;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-color: #f2f2f2;
+  }
+  50% {
+    background-color: #e0e0e0;
+  }
+  100% {
+    background-color: #f2f2f2;
+  }
+}

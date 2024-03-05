@@ -1,0 +1,158 @@
+Models
+List and describe the various models available in the API. You can refer to the Models documentation to understand what models are available and the differences between them.
+
+List models
+GET
+ 
+https://api.openai.com/v1/models
+
+Lists the currently available models, and provides basic information about each one such as the owner and availability.
+
+Returns
+A list of model objects.
+
+Example request
+node.js
+
+node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+async function main() {
+  const list = await openai.models.list();
+
+  for await (const model of list) {
+    console.log(model);
+  }
+}
+main();
+Response
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "model-id-0",
+      "object": "model",
+      "created": 1686935002,
+      "owned_by": "organization-owner"
+    },
+    {
+      "id": "model-id-1",
+      "object": "model",
+      "created": 1686935002,
+      "owned_by": "organization-owner",
+    },
+    {
+      "id": "model-id-2",
+      "object": "model",
+      "created": 1686935002,
+      "owned_by": "openai"
+    },
+  ],
+  "object": "list"
+}
+Retrieve model
+GET
+ 
+https://api.openai.com/v1/models/{model}
+
+Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
+
+Path parameters
+model
+string
+Required
+The ID of the model to use for this request
+
+Returns
+The model object matching the specified ID.
+
+Example request
+node.js
+
+node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+async function main() {
+  const model = await openai.models.retrieve("gpt-3.5-turbo");
+
+  console.log(model);
+}
+
+main();
+Response
+gpt-3.5-turbo-instruct
+
+gpt-3.5-turbo-instruct
+{
+  "id": "gpt-3.5-turbo-instruct",
+  "object": "model",
+  "created": 1686935002,
+  "owned_by": "openai"
+}
+Delete a fine-tuned model
+DELETE
+ 
+https://api.openai.com/v1/models/{model}
+
+Delete a fine-tuned model. You must have the Owner role in your organization to delete a model.
+
+Path parameters
+model
+string
+Required
+The model to delete
+
+Returns
+Deletion status.
+
+Example request
+node.js
+
+node.js
+import OpenAI from "openai";
+
+const openai = new OpenAI();
+
+async function main() {
+  const model = await openai.models.del("ft:gpt-3.5-turbo:acemeco:suffix:abc123");
+
+  console.log(model);
+}
+main();
+Response
+{
+  "id": "ft:gpt-3.5-turbo:acemeco:suffix:abc123",
+  "object": "model",
+  "deleted": true
+}
+The model object
+Describes an OpenAI model offering that can be used with the API.
+
+id
+string
+The model identifier, which can be referenced in the API endpoints.
+
+created
+integer
+The Unix timestamp (in seconds) when the model was created.
+
+object
+string
+The object type, which is always "model".
+
+owned_by
+string
+The organization that owns the model.
+
+The model object
+
+{
+  "id": "davinci",
+  "object": "model",
+  "created": 1686935002,
+  "owned_by": "openai"
+}

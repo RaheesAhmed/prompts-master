@@ -1,6 +1,5 @@
-// pages/index.js
+"use client"
 
-import Header from '@/comnponents/Header';
 import Head from 'next/head';
 
 export default function Home() {

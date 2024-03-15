@@ -64,17 +64,79 @@ app.post("/analyze-response", async (req, res) => {
 
 const promptLibrary = {
   "Travel Planning": [
-    "Suggest a travel itinerary for a 5-day trip to {{location}}.",
-    "What are the top attractions to visit in {{location}}?",
-    "Provide a packing list for a trip to {{location}} in {{season}}.",
+    "Suggest a detailed itinerary for a 7-day trip to {{location}}, including accommodations, dining, and transportation options.",
+    "List the top 5 must-visit attractions in {{location}} and explain why they are notable.",
+    "Provide a comprehensive packing list for a two-week stay in {{location}} during {{season}}, considering local weather and cultural norms.",
+    "Recommend the best modes of transportation within {{location}} for tourists, including cost and convenience factors.",
+    "Outline a day-by-day travel itinerary for {{location}} that includes both popular and off-the-beaten-path attractions.",
   ],
   "Product Reviews": [
-    "Write a review for {{product}} highlighting its features and performance.",
-    "Compare {{product1}} and {{product2}} in terms of durability and price.",
+    "Write an in-depth review of {{product}}, focusing on its specifications, usability, and comparison with similar products.",
+    "Evaluate {{product1}} versus {{product2}} in terms of features, user experience, and overall value for money.",
+    "Summarize customer feedback on {{product}}, highlighting common praises and concerns.",
+    "Provide a detailed analysis of the cost versus benefits for purchasing {{product}}, including a long-term outlook.",
+    "Craft a comparative review of {{product1}}, {{product2}}, and {{product3}}, ranking them in terms of performance, price, and reliability.",
   ],
   "Story Writing": [
-    "Start a story with the sentence: {{openingSentence}}",
-    "Write a short story that includes the following elements: {{elements}}",
+    "Begin a story with the sentence: {{openingSentence}}, and develop a plot that revolves around a mystery.",
+    "Compose a short story incorporating the following elements: {{elements}}, with a focus on a dramatic climax and resolution.",
+    "Write a compelling story opener using {{openingSentence}}, and introduce a conflict within the first three sentences.",
+    "Create a narrative that includes {{elements}}, ensuring that each element is crucial to the story's progression and outcome.",
+    "Draft a story starting with {{openingSentence}} that explores themes of redemption and forgiveness, including a surprising twist.",
+  ],
+  "Essay Writing": [
+    "Write an essay on the impact of social media on mental health, discussing both positive and negative effects.",
+    "Compose an argumentative essay on the topic of {{topic}}, presenting both sides of the argument and supporting your stance with evidence.",
+    "Discuss the role of technology in modern education, highlighting its benefits and potential drawbacks.",
+    "Analyze the impact of climate change on {{region}} and propose sustainable solutions to mitigate its effects.",
+    "Write a persuasive essay on the importance of {{topic}} in today's society, providing compelling reasons and real-life examples.",
+  ],
+  "Code Review": [
+    "Conduct a code review for the following code snippet, identifying potential bugs, inefficiencies, and areas for improvement.",
+    "Review the code for {{project}}, focusing on its structure, readability, and adherence to best practices.",
+    "Evaluate the performance of the code snippet in terms of speed, memory usage, and scalability.",
+    "Identify security vulnerabilities in the code and propose measures to enhance its resilience against potential threats.",
+    "Assess the codebase for {{project}} and suggest refactoring opportunities to enhance maintainability and extensibility.",
+  ],
+  "Interview Preparation": [
+    "Prepare a list of common interview questions for the role of {{jobTitle}}, along with suggested responses and talking points.",
+    "Craft a compelling elevator pitch for a candidate applying for the position of {{jobTitle}}, emphasizing their unique skills and experiences.",
+    "Create a mock interview scenario for the role of {{jobTitle}}, including both technical and behavioral questions.",
+    "Develop a structured response to the question: 'Tell me about yourself' tailored to the role of {{jobTitle}}.",
+    "Compile a list of industry-specific questions to assess a candidate's knowledge and expertise in the field of {{industry}}.",
+  ],
+  "Academic Research": [
+    "Conduct a literature review on the topic of {{researchTopic}}, summarizing key findings and identifying research gaps.",
+    "Propose a research methodology for investigating the impact of {{variable}} on {{outcome}} in the context of {{industry}}.",
+    "Analyze the existing data on {{researchTopic}} and present a statistical overview of the trends and patterns observed.",
+    "Develop a research survey to gather insights on {{researchTopic}} from a diverse sample population.",
+    "Write an abstract for a research paper on {{researchTopic}}, outlining the objectives, methodology, and expected contributions.",
+  ],
+  "Code Generation": [
+    "Generate a semantic HTML and CSS component for a {{component}} with {{features}}.",
+    "Create a RESTful API using Node.js to manage {{resource}} with CRUD operations.",
+    "Develop a Python script to automate the extraction of data from {{source}} and save it to {{format}}.",
+  ],
+  "Creative Writing": [
+    "Write a poem inspired by the theme of {{theme}}, using vivid imagery and metaphorical language.",
+    "Compose a short story set in a dystopian future where {{scenario}} has become a reality.",
+    "Craft a dialogue between two characters who are at odds with each other, exploring their conflicting perspectives and emotions.",
+  ],
+  "Web Development": [
+    "Design a responsive web page layout using Flexbox that adapts to {{devices}}.",
+    "Implement dynamic content loading in a React app to improve performance for {{contentType}}.",
+  ],
+  "Social Media Management": [
+    "Create a content calendar for {{platform}} outlining the types of posts, frequency, and target audience for each.",
+    "Develop a social media marketing strategy to promote {{product}} and engage with potential customers.",
+  ],
+  "Marketing Copywriting": [
+    "Write a compelling tagline for {{product}} that captures its unique value proposition in a concise and memorable manner.",
+    "Craft a persuasive product description for {{product}} that highlights its key features and benefits.",
+  ],
+  "Data Analysis": [
+    "Analyze the dataset on {{topic}} and identify trends, outliers, and correlations to derive actionable insights.",
+    "Create visualizations to present the findings of the data analysis on {{topic}} in an accessible and informative manner.",
   ],
 };
 

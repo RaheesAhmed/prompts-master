@@ -9,7 +9,7 @@ const openai = new OpenAI({ apiKey });
 
 const responseCache = {};
 
-async function getResponse(prompt: string) {
+export default async function getResponse(prompt: string) {
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-16k",

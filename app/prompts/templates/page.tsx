@@ -28,6 +28,17 @@ export default function PromptLibrary() {
         <option value="Travel Planning">Travel Planning</option>
         <option value="Product Reviews">Product Reviews</option>
         <option value="Story Writing">Story Writing</option>
+        <option value="Essay Writing">Essay Writing</option>
+        <option value="Code Review">Code Review</option>
+        <option value="Interview Preparation">Interview Preparation</option>
+        <option value="Academic Research">Academic Research</option>
+        <option value="Code Generation">Code Generation</option>
+        <option value="Creative Writing">Creative Writing</option>
+        <option value="Web Development">Web Development</option>
+        <option value="Social Media Management">Social Media Management</option>
+        <option value="Marketing Copywriting">Marketing Copywriting</option>
+        <option value="Data Analysis">Data Analysis</option>
+        
       </select>
 
       {prompts.length > 0 && (

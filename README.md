@@ -2,16 +2,18 @@
 
 Prompts Master is a tool, which allows users to analyze text, generate prompts, and improve prompts using the OpenAI API.
 
+![screenshot](public\nextjs-screenshot.PNG)
+
 ## Setup
 
 Clone the repository:
 
 ```
-git clone <repository-url>
+git clone https://github.com/RaheesAhmed/prompts-master.git
 ```
 
 ```
-cd <repository-folder>
+cd prompts-master
 ```
 
 Install dependencies and start the server:

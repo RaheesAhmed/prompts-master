@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
 
 export default function Analyze() {
   const [text, setText] = useState('');
@@ -21,6 +22,22 @@ export default function Analyze() {
       setIsLoading(false);
     }
   };
+
+  let sentimentData;
+  if (result && result.sentimentScores) {
+    sentimentData = {
+      labels: ['Positive', 'Neutral', 'Negative'],
+      datasets: [
+        {
+          label: 'Sentiment Score',
+          data: [result.sentimentScores.positive, result.sentimentScores.neutral, result.sentimentScores.negative],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(201, 203, 207, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(201, 203, 207, 1)', 'rgba(255, 99, 132, 1)'],
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -44,7 +61,11 @@ export default function Analyze() {
       {result && (
         <div className="mt-4">
           <h2 className="text-xl font-semibold">Analysis Result</h2>
-          <p>Sentiment: {result.sentiment}</p>
+          {sentimentData && (
+            <div className="my-4">
+              <Bar data={sentimentData} options={{ responsive: true }} />
+            </div>
+          )}
           <p>Keywords: {result.keywords.join(', ')}</p>
           <p>Topics: {result.topics.join(', ')}</p>
         </div>

@@ -39,6 +39,35 @@ function categorizeTopic(text) {
   return foundTopics.length > 0 ? foundTopics : ["General"];
 }
 
+function detectEmotions(text) {
+  // Simple emotion detection based on keywords
+  const emotions = {
+    happy: ["happy", "joy", "glad", "excited"],
+    sad: ["sad", "depressed", "unhappy", "sorrow"],
+    angry: ["angry", "mad", "furious", "rage"],
+    surprised: ["surprised", "amazed", "shocked", "astonished"],
+    fear: ["fear", "scared", "terrified", "anxious"],
+  };
+
+  const detectedEmotions = [];
+  for (const [emotion, keywords] of Object.entries(emotions)) {
+    if (keywords.some((keyword) => text.includes(keyword))) {
+      detectedEmotions.push(emotion);
+    }
+  }
+
+  return detectedEmotions.length > 0 ? detectedEmotions : ["neutral"];
+}
+
+function extractEntities(text) {
+  const doc = compromise(text);
+  return {
+    people: doc.people().out("array"),
+    places: doc.places().out("array"),
+    organizations: doc.organizations().out("array"),
+  };
+}
+
 app.post("/analyze-response", async (req, res) => {
   const { text } = req.body;
 
@@ -50,11 +79,15 @@ app.post("/analyze-response", async (req, res) => {
     const sentiment = analyzeSentiment(text);
     const keywords = extractKeywords(text);
     const topics = categorizeTopic(text);
+    const emotions = detectEmotions(text);
+    const entities = extractEntities(text);
 
     res.json({
       sentiment,
       keywords,
       topics,
+      emotions,
+      entities,
     });
   } catch (error) {
     console.error("Error analyzing response:", error);
@@ -281,10 +314,11 @@ app.post("/improve-prompt", async (req, res) => {
 
   try {
     const systemMessages = [
-      // Version 1: Detailed and Specific
-      "You are a detailed-oriented assistant. Your task is to improve this prompt by adding depth and specificity. Focus on providing comprehensive and precise information, ensuring thoroughness and factual accuracy. Enhance the prompt with relevant details, examples, and explanations that deepen understanding of the topic.",
-      // Version 2: Engaging and Detailed
-      "You are a versatile and skilled assistant, adept at refining and enhancing prompts. Your objective is to take the provided prompt and elevate it to its fullest potential. Focus on making the prompt clearer, more informative, and engaging. Ensure that the improved prompt provides a comprehensive and precise query or instruction, encouraging detailed and thoughtful responses. While maintaining factual accuracy and relevance, inject a degree of creativity or intrigue where appropriate to make the prompt not only informative but also captivating. Adapt your approach based on the nature of the prompt, whether it requires technical detail, narrative depth, or creative flair, and tailor it to evoke rich and insightful responses.",
+      // Version 1: Detailed, Specific, and Comprehensive
+      "You are an assistant with a keen eye for detail. Your primary task is to refine this prompt by infusing it with additional depth and specificity. Strive to provide exhaustive and accurate information, underlining the importance of thoroughness and factual correctness. Enhance the prompt by weaving in pertinent details, examples, and explanations that not only enrich the understanding of the topic but also anchor the discussion in concrete information. Your goal is to transform the prompt into a meticulously crafted query that leaves no room for ambiguity, thereby facilitating a well-rounded and informed response.",
+
+      // Version 2: Engaging, Detailed, and Creatively Enhanced
+      "You are a multifaceted and skilled assistant, recognized for your ability to refine and amplify prompts. Your mission is to revamp the given prompt, pushing it towards its maximum potential. Concentrate on rendering the prompt clearer, more enlightening, and irresistibly engaging. Guarantee that the improved prompt presents a query or instruction that is both comprehensive and precise, stimulating detailed and reflective answers. While upholding factual accuracy and relevance, sprinkle elements of creativity or an intriguing twist where fitting to transform the prompt into a beacon of both information and interest. Depending on the prompt's inherent requirements—be it technical precision, narrative richness, or a splash of creative zest—customize your enhancement to summon deep and enlightening responses.",
     ];
 
     const originalResponse = await getResponse(originalPrompt); // Get response for the original prompt

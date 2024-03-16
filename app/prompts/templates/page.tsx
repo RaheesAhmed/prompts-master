@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { FiCopy } from "react-icons/fi";
 
 export default function PromptLibrary() {
   const [useCase, setUseCase] = useState("");
@@ -15,6 +16,10 @@ export default function PromptLibrary() {
         .catch((error) => console.error("Error fetching prompts:", error));
     }
   }, [useCase]);
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -38,19 +43,31 @@ export default function PromptLibrary() {
         <option value="Social Media Management">Social Media Management</option>
         <option value="Marketing Copywriting">Marketing Copywriting</option>
         <option value="Data Analysis">Data Analysis</option>
-        
-      </select>
+</select>
 
       {prompts.length > 0 && (
         <div className="mt-4">
           <h2 className="text-xl font-semibold">Prompts for {useCase}</h2>
-          <ul className="list-disc pl-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {prompts.map((prompt, index) => (
-              <li key={index}>{prompt}</li>
+              <div key={index} className="bg-white border rounded-lg p-4 shadow flex justify-between items-start">
+                <p className="text-gray-800">{prompt}</p>
+                <button onClick={() => copyToClipboard(prompt)} className="text-gray-500 hover:text-gray-700">
+                  <FiCopy size={20} />
+                </button>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
+
+
+
+
+
+
+

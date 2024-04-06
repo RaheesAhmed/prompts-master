@@ -24,7 +24,7 @@ export default function Home() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/improve-prompt', { originalPrompt: userPrompt },
+      const response = await axios.post('/api/test', { originalPrompt: userPrompt },
         { headers: { 'Content-Type': 'application/json' } }
         );
       setResult(response.data);
@@ -41,7 +41,22 @@ export default function Home() {
       setUserPrompt(userPrompt.replace(new RegExp(`{{${variable}}}`, 'g'), value));
     }
   };
-
+  const formatResponse = (response) => {
+    // Replace **text** with <strong>text</strong> for bold text
+    let formattedResponse = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+    // Convert numbered lists into HTML ordered lists
+    formattedResponse = formattedResponse.replace(/(\d+\.\s.*(?:\n|$))+/g, (match) => {
+      const listItems = match.trim().split('\n').map((item) => `<li>${item.replace(/^\d+\.\s/, '')}</li>`).join('');
+      return `<ol>${listItems}</ol>`;
+    });
+  
+    // Split the response by new lines and wrap each line in a <p> tag
+    return formattedResponse.split('\n\n').map((paragraph, index) => (
+      <p key={index} dangerouslySetInnerHTML={{ __html: paragraph }} />
+    ));
+  };
+  
   return (
     <div className="container mt-5">
       <form id="promptForm" onSubmit={handleSubmit}>
@@ -85,8 +100,8 @@ export default function Home() {
                 <div key={index} className="result-card improved-section w-full md:w-1/2 p-2 bg-white shadow-lg rounded-lg overflow-hidden m-2">
                   <h5 className="font-bold text-lg mb-2">Improved Prompt and Response v{index + 1}</h5>
                   <div className="chat-container">
-                    <div className="chat-message prompt-message bg-gray-100 p-2 rounded">{improvedPrompt}</div>
-                    <div className="chat-message response-message bg-blue-100 p-2 rounded mt-2">{result.improvedResponses[index]}</div>
+                    <div className="chat-message prompt-message bg-gray-100 p-2 rounded">{formatResponse(improvedPrompt)}</div>
+                    <div className="chat-message response-message bg-blue-100 p-2 rounded mt-2">{formatResponse(result.improvedResponses[index])}</div>
                   </div>
                 </div>
               ))}

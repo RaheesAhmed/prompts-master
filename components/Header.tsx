@@ -14,6 +14,7 @@ const Header = () => {
           <a href="/prompts/batch" className="text-blue  to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg transition-all">Batch Test</a>
           <a href="/prompts/variations" className="text-blue  to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg transition-all">Prompts Variations</a>
           <a href="/prompts/templates" className="text-blue  to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg transition-all">Prompts Templates</a>
+          <a href="/prompts/playground" className="text-blue  to-blue-700 hover:from-blue-600 hover:to-blue-800 px-4 py-2 rounded-lg transition-all bg-blue-700 text-white">Playground</a>
         </div>
       </div>
     </nav>

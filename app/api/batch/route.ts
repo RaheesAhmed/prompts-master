@@ -1,30 +1,63 @@
-import  getResponses from "@/app/api/test/route.ts"; 
+import { NextRequest, NextResponse } from 'next/server';
+import OpenAI from 'openai';
+import dotenv from 'dotenv';
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { prompts } = req.body;
+dotenv.config();
 
-    if (!prompts || !Array.isArray(prompts) || prompts.length === 0) {
-      return res
-        .status(400)
-        .send("Please provide an array of prompts for batch testing.");
-    }
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-    try {
-      const responses = await getResponses(prompts);
+async function getResponses(prompts) {
+  try {
+    const completions = await Promise.all(
+      prompts.map((prompt) =>
+        openai.chat.completions.create({
+          model: "gpt-3.5-turbo-16k",
+          messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            { role: "user", content: prompt },
+          ],
+        })
+      )
+    );
 
-      const results = prompts.map((prompt, index) => ({
-        prompt,
-        response: responses[index],
-      }));
+    return completions.map(
+      (completion) => completion.choices[0].message.content
+    );
+  } catch (error) {
+    console.error("Error getting responses:", error);
+    throw new Error("Error in OpenAI Completion");
+  }
+}
 
-      res.json(results);
-    } catch (error) {
-      console.error("Error in batch testing prompts:", error);
-      res.status(500).send("An error occurred while batch testing prompts.");
-    }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+export  async function POST(req:NextRequest) {
+  if (req.method !== 'POST') {
+    return new NextResponse('Method Not Allowed', { status: 405 });
+  }
+
+  try {
+    const { prompts } = await req.json();
+console.log(prompts)
+    const responses = await getResponses(prompts);
+console.log(responses)
+
+const results = prompts.map((prompt, index) => ({
+  prompt,
+  response: responses[index],
+}));
+    return new NextResponse(JSON.stringify({ results }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse(JSON.stringify({ message: 'An error occurred while processing your request.' }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }

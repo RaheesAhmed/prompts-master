@@ -33,7 +33,7 @@ export default function Analyze() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/analyze-response', { text });
+      const response = await axios.post('/api/analyze', { text });
       console.log(response.data);
       setResult(response.data);
     } catch (error) {

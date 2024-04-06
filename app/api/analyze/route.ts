@@ -1,19 +1,20 @@
 import Sentiment from "sentiment";
 import compromise from "compromise";
-
+import { NextApiRequest } from 'next';
+import { NextResponse } from 'next/server';
 const sentimentAnalyzer = new Sentiment();
 
-function analyzeSentiment(text) {
+async function analyzeSentiment(text) {
   const result = sentimentAnalyzer.analyze(text);
   return result.score;
 }
 
-function extractKeywords(text) {
+async function extractKeywords(text) {
   const doc = compromise(text);
   return doc.nouns().out("array");
 }
 
-function categorizeTopic(text) {
+async function categorizeTopic(text) {
   const topics = [
     "Technology",
     "Health",
@@ -26,30 +27,27 @@ function categorizeTopic(text) {
   return foundTopics.length > 0 ? foundTopics : ["General"];
 }
 
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { text } = req.body;
+export  async function POST(req:NextApiRequest, res:NextResponse) {
+ 
+    const { text } = req.json();
 
     if (!text) {
-      return res.status(400).send("Please provide text for analysis.");
+      return NextResponse.json("Please provide text for analysis.");
     }
 
     try {
-      const sentiment = analyzeSentiment(text);
-      const keywords = extractKeywords(text);
-      const topics = categorizeTopic(text);
+      const sentiment =await analyzeSentiment(text);
+      const keywords =await extractKeywords(text);
+      const topics =await categorizeTopic(text);
 
-      res.json({
+      return  NextResponse.json({
         sentiment,
         keywords,
         topics,
       });
     } catch (error) {
       console.error("Error analyzing response:", error);
-      res.status(500).send("An error occurred while analyzing the response.");
+      return new NextResponse("An error occurred while analyzing the response.");
     }
-  } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
+  
 }

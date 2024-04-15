@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
@@ -7,7 +6,7 @@ dotenv.config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-export  async function POST(req:NextRequest) {
+export async function POST(req: NextRequest) {
   if (req.method !== 'POST') {
     return new NextResponse('Method Not Allowed', { status: 405 });
   }
@@ -22,15 +21,25 @@ export  async function POST(req:NextRequest) {
       responseType
     } = await req.json();
 
-    const maxToken = parseInt(maxTokens);
-
-    const response = await await openai.chat.completions.create({
+    console.log('Request received:', {
       model,
+      systemMessage,
+      userMessage,
+      temperature,
+      maxTokens,
+      responseType
+    });
+
+    const maxToken = parseInt(maxTokens);
+    const temp = parseFloat(temperature);
+
+    const response = await openai.chat.completions.create({
+      model: model,
       messages: [
         { role: 'system', content: systemMessage },
         { role: 'user', content: userMessage }
       ],
-      temperature,
+      temperature: temp,
       max_tokens: maxToken,
     });
 

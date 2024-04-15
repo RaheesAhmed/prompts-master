@@ -65,16 +65,16 @@ export default function Home() {
           </select>
         </div>
         
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
           <label className="text-sm font-medium text-gray-900">Temperature:</label>
           <input
-            type="range"
+            type="input"
             min="0"
             max="1"
             step="0.01"
             value={temperature}
             onChange={(e) => setTemperature(e.target.value)}
-            className="w-32"
+            className="w-32 "
           />
           <span className="text-sm font-medium text-gray-900">{temperature}</span>
         </div>

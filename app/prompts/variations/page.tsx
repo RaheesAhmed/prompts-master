@@ -26,7 +26,7 @@ export default function PromptVariations() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/test-prompt-variations', { basePrompt, variations });
+      const response = await axios.post('http://localhost:3000/api/variations', { basePrompt, variations });
       setResults(response.data);
     } catch (error) {
       console.error('Error testing prompt variations:', error);
@@ -44,6 +44,53 @@ export default function PromptVariations() {
   return (
     <div className="container mx-auto p-4">
       {/* Form and other content remain unchanged */}
+      <h1 className="text-2xl font-bold">Test Prompt Variations</h1>
+
+      <form onSubmit={handleSubmit} className="mt-4">
+        <label htmlFor="basePrompt" className="block font-semibold">Base Prompt:</label>
+        <textarea
+          id="basePrompt"
+          value={basePrompt}
+          onChange={(e) => setBasePrompt(e.target.value)}
+          className="w-full p-2 border rounded"
+          required
+        ></textarea>
+
+        <label htmlFor="variations" className="block font-semibold mt-4">Variations:</label>
+        {variations.map((variation, index) => (
+          <div key={index} className="relative">
+            <textarea
+              value={variation}
+              onChange={(e) => handleVariationChange(index, e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            ></textarea>
+            {index === variations.length - 1 && (
+              <button
+                type="button"
+                onClick={handleAddVariation}
+                className="absolute top-0 right-0 p-2"
+              >
+                <FaPlus />
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white font-semibold p-2 rounded flex items-center"
+        >
+          {isLoading ? (
+            <TailSpin className="animate-spin mr-2" />
+          ) : (
+            <FaCheck className="mr-2" />
+          )}
+          Test Variations
+        </button>
+      </form>
+
+      
 
       {results.length > 0 && (
         <div className="mt-4">
